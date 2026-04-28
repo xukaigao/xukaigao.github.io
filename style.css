@@ -1,0 +1,147 @@
+:root {
+  color-scheme: light dark;
+  --bg: #0f1419;
+  --card: #151c24;
+  --text: #e8eef5;
+  --muted: #9aa7b4;
+  --accent: #6eb5ff;
+  --border: rgba(255, 255, 255, 0.08);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Noto Sans SC", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(1200px 600px at 20% -10%, #1b2a4a 0%, transparent 55%),
+    radial-gradient(900px 500px at 90% 10%, #24304a 0%, transparent 50%), var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.shell {
+  width: min(920px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 32px 0;
+}
+
+header.shell {
+  padding-top: 48px;
+}
+
+.badge {
+  display: inline-block;
+  margin: 0 0 12px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+h1 {
+  margin: 0 0 12px;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  margin: 0;
+  max-width: 62ch;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    monospace;
+  font-size: 0.95em;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+}
+
+.card {
+  margin-top: 18px;
+  padding: 22px 22px 18px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 40%),
+    var(--card);
+  border: 1px solid var(--border);
+}
+
+h2 {
+  margin: 0 0 14px;
+  font-size: 1.15rem;
+}
+
+.links {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.links li {
+  margin: 8px 0;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.steps {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.steps li {
+  margin: 10px 0;
+}
+
+.footer {
+  padding-bottom: 48px;
+  color: var(--muted);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f6f7fb;
+    --card: #ffffff;
+    --text: #121826;
+    --muted: #5b6575;
+    --accent: #145ff0;
+    --border: rgba(15, 20, 25, 0.12);
+  }
+
+  body {
+    background: radial-gradient(900px 500px at 15% -10%, #dbeafe 0%, transparent 55%),
+      radial-gradient(800px 450px at 85% 0%, #e9e5ff 0%, transparent 55%), var(--bg);
+  }
+
+  code {
+    background: rgba(15, 20, 25, 0.06);
+  }
+
+  .card {
+    background: var(--card);
+    box-shadow: 0 10px 30px rgba(15, 20, 25, 0.06);
+  }
+}

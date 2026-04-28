@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="郜旭凯的个人主页" />
+    <title>xukaigao</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="shell">
+      <p class="badge">GitHub Pages · 纯 HTML</p>
+      <h1>你好，我是 xukaigao</h1>
+      <p class="lead">
+        这是用静态 HTML/CSS 搭建的个人主页示例。你可以在本地修改
+        <code>index.html</code> 与 <code>style.css</code>，推送到 GitHub 后自动更新站点。
+      </p>
+    </header>
+
+    <main class="shell">
+      <section class="card">
+        <h2>链接</h2>
+        <ul class="links">
+          <li><a href="https://github.com/xukaigao" target="_blank" rel="noopener noreferrer">GitHub 主页</a></li>
+          <li><span class="muted">站点地址：</span><a href="https://xukaigao.github.io">https://xukaigao.github.io</a></li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>接下来你可以</h2>
+        <ol class="steps">
+          <li>在 GitHub 新建仓库 <strong>xukaigao.github.io</strong>（公开）。</li>
+          <li>把本目录文件推到 <code>main</code> 分支根目录。</li>
+          <li>仓库 <strong>Settings → Pages</strong>：Branch 选 <code>main</code>，文件夹 <code>/ (root)</code>。</li>
+          <li>等待几分钟，访问本站域名。</li>
+        </ol>
+      </section>
+    </main>
+
+    <footer class="shell footer">
+      <small>© <span id="y"></span> xukaigao</small>
+    </footer>
+    <script>
+      document.getElementById("y").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
