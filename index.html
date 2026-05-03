@@ -8,13 +8,180 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header class="shell">
-      <p class="badge">GitHub Pages · 纯 HTML</p>
-      <h1>Hello, I am xukaigao</h1>
-      <p class="lead">
-        这是用静态 HTML/CSS 搭建的个人主页示例。你可以在本地修改
-        <code>index.html</code> 与 <code>style.css</code>，推送到 GitHub 后自动更新站点。
-      </p>
+    <header class="shell hero-header">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="badge">GitHub Pages · 纯 HTML</p>
+          <h1>Hello, I am xukaigao</h1>
+          <p class="lead">
+            写代码、弹吉他、慢慢变老——主页上这位大概三十八岁，和你一样在调试人生与和弦。
+            改 <code>index.html</code> / <code>style.css</code> 后推送到 GitHub 即可更新本站。
+          </p>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <svg class="coder-guitar" viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.22" />
+                <stop offset="100%" stop-color="transparent" />
+              </linearGradient>
+              <linearGradient id="hoodie" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#3d4f63" />
+                <stop offset="100%" stop-color="#2a3544" />
+              </linearGradient>
+              <linearGradient id="guitar-wood" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#e8b565" />
+                <stop offset="45%" stop-color="#d4984a" />
+                <stop offset="100%" stop-color="#b87a38" />
+              </linearGradient>
+            </defs>
+            <ellipse cx="200" cy="300" rx="140" ry="28" fill="rgba(0,0,0,0.25)" />
+            <circle cx="200" cy="195" r="118" fill="url(#glow)" />
+
+            <!-- 凳子 -->
+            <rect x="155" y="268" width="90" height="12" rx="4" fill="#1a2330" />
+            <rect x="188" y="220" width="24" height="58" fill="#243042" />
+
+            <!-- 腿 -->
+            <path d="M168 275 L155 318 L175 322 L188 278 Z" fill="#1e2936" />
+            <path d="M232 275 L245 318 L225 322 L212 278 Z" fill="#1e2936" />
+            <ellipse cx="162" cy="322" rx="22" ry="10" fill="#121820" />
+            <ellipse cx="238" cy="322" rx="22" ry="10" fill="#121820" />
+
+            <!-- 身体摇摆组 -->
+            <g class="body-sway">
+              <!-- 民谣吉他：琴颈从琴肩伸出 + 8 字共鸣箱 + 音孔 + 琴桥（与人物同一倾斜） -->
+              <g class="guitar-all" transform="rotate(-14 272 248)">
+                <!-- 下共鸣箱 -->
+                <ellipse cx="278" cy="278" rx="40" ry="44" fill="url(#guitar-wood)" stroke="#9a6b32" stroke-width="1" />
+                <!-- 上共鸣箱 -->
+                <ellipse cx="284" cy="232" rx="32" ry="36" fill="url(#guitar-wood)" stroke="#9a6b32" stroke-width="1" />
+                <!-- 琴肩遮缝 -->
+                <ellipse cx="280" cy="252" rx="28" ry="22" fill="url(#guitar-wood)" />
+                <!-- 音孔 + 饰圈 -->
+                <circle cx="276" cy="248" r="17" fill="none" stroke="#6b4a28" stroke-width="3" />
+                <circle cx="276" cy="248" r="12" fill="#1a0f0a" stroke="#4a3020" stroke-width="1.5" />
+                <circle cx="276" cy="248" r="5" fill="#0d0806" opacity="0.65" />
+                <!-- 琴桥 / 弦枕板 -->
+                <rect x="258" y="298" width="38" height="11" rx="2" fill="#f2e8d4" stroke="#c4b08a" stroke-width="0.6" />
+                <line x1="264" y1="298" x2="290" y2="298" stroke="#2a2018" stroke-width="1.2" />
+                <!-- 琴颈背面 -->
+                <path d="M268 210 L286 214 L318 118 L300 114 Z" fill="#5c4334" stroke="#3d2b20" stroke-width="0.8" />
+                <!-- 指板 -->
+                <path d="M272 208 L282 210 L312 122 L302 120 Z" fill="#3d2a1f" />
+                <!-- 品丝暗示 -->
+                <g stroke="rgba(255,255,255,0.12)" stroke-width="1">
+                  <line x1="304" y1="188" x2="276" y2="182" />
+                  <line x1="308" y1="168" x2="278" y2="162" />
+                  <line x1="312" y1="148" x2="280" y2="142" />
+                  <line x1="315" y1="132" x2="282" y2="126" />
+                </g>
+                <!-- 琴头 -->
+                <path d="M314 118 L338 112 L344 88 L318 94 Z" fill="#5c4334" stroke="#3d2b20" stroke-width="0.8" />
+                <!-- 弦轴 -->
+                <g fill="#c0c0c0">
+                  <circle cx="332" cy="104" r="3" />
+                  <circle cx="336" cy="94" r="3" />
+                  <circle cx="328" cy="114" r="3" />
+                </g>
+                <!-- 上弦枕 -->
+                <line x1="316" y1="117" x2="340" y2="111" stroke="#e8e0d5" stroke-width="2.5" stroke-linecap="round" />
+              </g>
+
+              <!-- 躯干 / 卫衣 -->
+              <path
+                d="M145 210 Q140 255 148 278 L252 278 Q260 255 255 210 Q200 188 145 210 Z"
+                fill="url(#hoodie)"
+                stroke="rgba(255,255,255,0.06)"
+                stroke-width="1"
+              />
+              <text x="200" y="248" text-anchor="middle" fill="rgba(255,255,255,0.2)" font-size="13" font-family="ui-monospace,monospace">
+                &lt;/&gt;
+              </text>
+
+              <!-- 左手按弦（搭在指板上缘） -->
+              <g class="fret-hand">
+                <path d="M286 128 L302 136 L296 152 L278 142 Z" fill="#d4a574" />
+                <path d="M282 122 L288 160 L296 162 L292 120 Z" fill="#2d3a50" />
+              </g>
+
+              <!-- 脖子 -->
+              <rect x="186" y="168" width="28" height="28" fill="#d4a574" rx="4" />
+
+              <!-- 头 -->
+              <ellipse cx="200" cy="138" rx="46" ry="52" fill="#d4a574" />
+
+              <!-- 眼镜 -->
+              <g stroke="#1a1e24" stroke-width="2.5" fill="none">
+                <rect x="168" y="128" width="26" height="18" rx="5" />
+                <rect x="206" y="128" width="26" height="18" rx="5" />
+                <line x1="194" y1="137" x2="206" y2="137" />
+              </g>
+              <path d="M178 148 Q200 154 222 148" fill="none" stroke="#b08a70" stroke-width="2" stroke-linecap="round" opacity="0.6" />
+
+              <!-- 蓬松卷发（摇滚感：大卷、两侧蓬出） -->
+              <g class="hair-rock" fill="#161218" stroke="#3d3548" stroke-width="0.9">
+                <circle cx="200" cy="58" r="17" />
+                <circle cx="178" cy="68" r="15" />
+                <circle cx="222" cy="66" r="16" />
+                <circle cx="162" cy="92" r="14" />
+                <circle cx="238" cy="88" r="15" />
+                <circle cx="152" cy="118" r="13" />
+                <circle cx="248" cy="112" r="14" />
+                <circle cx="158" cy="148" r="11" />
+                <circle cx="244" cy="138" r="12" />
+                <circle cx="188" cy="52" r="13" />
+                <circle cx="212" cy="50" r="14" />
+                <circle cx="172" cy="108" r="12" />
+                <circle cx="228" cy="104" r="13" />
+                <circle cx="196" cy="78" r="11" />
+                <circle cx="204" cy="76" r="11" />
+                <circle cx="142" cy="132" r="10" />
+                <circle cx="256" cy="128" r="11" />
+                <circle cx="170" cy="130" r="9" />
+                <circle cx="232" cy="124" r="10" />
+                <!-- 高光卷 -->
+                <g fill="none" stroke="#5a4d62" stroke-width="1.2" opacity="0.85">
+                  <path d="M192 62 A10 10 0 0 1 208 58" />
+                  <path d="M168 88 A8 8 0 0 1 182 82" />
+                  <path d="M218 82 A9 9 0 0 1 234 86" />
+                  <path d="M158 118 A7 7 0 0 1 170 112" />
+                </g>
+              </g>
+
+              <!-- 琴弦在上、扫弦手在下（手压住弦） -->
+              <g class="strings" stroke="rgba(255,255,255,0.42)" stroke-width="0.75" fill="none" transform="rotate(-14 272 248)">
+                <line x1="318" y1="116" x2="266" y2="298" />
+                <line x1="321" y1="115" x2="269" y2="297" />
+                <line x1="324" y1="114" x2="272" y2="296" />
+                <line x1="327" y1="113" x2="275" y2="295" />
+                <line x1="330" y1="112" x2="278" y2="294" />
+                <line x1="333" y1="111" x2="281" y2="293" />
+              </g>
+
+              <!-- 右臂 + 扫弦（手在音孔前侧） -->
+              <g class="strum-pivot" transform="translate(168, 200)">
+                <path d="M0 0 L-8 52 L12 54 L18 4 Z" fill="#2d3a50" />
+                <g class="strum-forearm">
+                  <path d="M12 54 L8 88 L28 92 L32 58 Z" fill="#d4a574" />
+                  <ellipse cx="18" cy="96" rx="10" ry="8" fill="#d4a574" />
+                </g>
+              </g>
+            </g>
+
+            <!-- 漂浮代码符号 -->
+            <text class="float-code float-a" x="48" y="120" fill="var(--accent)" font-size="22" font-family="ui-monospace,monospace" opacity="0.85">
+              {"git": "push"}
+            </text>
+            <text class="float-code float-b" x="280" y="88" fill="#7dd3a0" font-size="18" font-family="ui-monospace,monospace" opacity="0.75">
+              &lt;/chord&gt;
+            </text>
+            <text class="float-code float-c" x="72" y="220" fill="var(--muted)" font-size="15" font-family="ui-monospace,monospace" opacity="0.55">
+              // 38 &amp; counting
+            </text>
+          </svg>
+        </div>
+      </div>
     </header>
 
     <main class="shell">
