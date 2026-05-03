@@ -103,10 +103,10 @@ header.shell {
 
 @keyframes pick-arm {
   0% {
-    transform: rotate(-28deg);
+    transform: rotate(-118deg);
   }
   100% {
-    transform: rotate(18deg);
+    transform: rotate(-72deg);
   }
 }
 
