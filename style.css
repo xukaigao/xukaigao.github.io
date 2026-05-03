@@ -64,84 +64,95 @@ header.shell {
   overflow: visible;
 }
 
-/* 身体随节拍轻晃 */
-.body-sway {
-  transform-origin: 200px 260px;
-  animation: body-sway 2.8s ease-in-out infinite;
+/* 场景整体微浮动 */
+.scene-float {
+  animation: scene-float 4.4s ease-in-out infinite;
 }
 
-@keyframes body-sway {
+@keyframes scene-float {
   0%,
   100% {
-    transform: rotate(-1.2deg) translateY(0);
+    transform: translateY(0);
   }
   50% {
-    transform: rotate(1.2deg) translateY(-3px);
+    transform: translateY(-4px);
   }
 }
 
-/* 前臂扫弦 */
-.strum-pivot {
-  transform-origin: 12px 8px;
+/* 头与上身随拍点头 */
+.head-bob {
+  transform-origin: 200px 250px;
+  animation: head-bob 2.6s ease-in-out infinite;
 }
 
-.strum-forearm {
+@keyframes head-bob {
+  0%,
+  100% {
+    transform: rotate(-1.2deg);
+  }
+  50% {
+    transform: rotate(1.3deg);
+  }
+}
+
+/* 拨弦手 */
+.pick-arm {
   transform-origin: 14px 58px;
-  animation: strum 0.55s ease-in-out infinite alternate;
+  animation: pick-arm 0.5s ease-in-out infinite alternate;
 }
 
-@keyframes strum {
+@keyframes pick-arm {
   0% {
-    transform: rotate(-14deg);
+    transform: rotate(-16deg);
   }
   100% {
-    transform: rotate(10deg);
+    transform: rotate(12deg);
   }
 }
 
-.fret-hand {
-  animation: fret-shift 1.1s ease-in-out infinite alternate;
+.fret-hand-new {
+  animation: fret-shift-new 1.2s ease-in-out infinite alternate;
 }
 
-@keyframes fret-shift {
+@keyframes fret-shift-new {
   0% {
     transform: translate(0, 0);
   }
   100% {
-    transform: translate(-3px, 2px);
+    transform: translate(-3px, 3px);
   }
 }
 
-.strings {
-  animation: string-shimmer 0.28s ease-in-out infinite alternate;
+.string-wave {
+  animation: string-wave 0.24s ease-in-out infinite alternate;
 }
 
-@keyframes string-shimmer {
+@keyframes string-wave {
   0% {
-    opacity: 0.45;
+    opacity: 0.42;
   }
   100% {
-    opacity: 0.95;
+    opacity: 0.98;
   }
 }
 
-.float-code {
+.float-note {
   pointer-events: none;
 }
 
-.float-a {
-  animation: float-up 5s ease-in-out infinite;
+.note-a {
+  animation: note-float 4.8s ease-in-out infinite;
 }
 
-.float-b {
-  animation: float-up 5.8s ease-in-out infinite 0.6s;
+.note-b {
+  animation: note-float 5.6s ease-in-out infinite 0.5s;
 }
 
-.float-c {
-  animation: float-up 6.5s ease-in-out infinite 1.2s;
+.note-c {
+  animation: note-float 6.2s ease-in-out infinite 1s;
 }
 
-@keyframes float-up {
+@keyframes note-float {
   0%,
   100% {
     transform: translateY(0);
@@ -166,13 +177,14 @@ header.shell {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .body-sway,
-  .strum-forearm,
-  .fret-hand,
-  .strings,
-  .float-a,
-  .float-b,
-  .float-c {
+  .scene-float,
+  .head-bob,
+  .pick-arm,
+  .fret-hand-new,
+  .string-wave,
+  .note-a,
+  .note-b,
+  .note-c {
     animation: none !important;
   }
 }
