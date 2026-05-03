@@ -75,7 +75,7 @@ header.shell {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-4px);
+    transform: translateY(-8px);
   }
 }
 
@@ -88,10 +88,10 @@ header.shell {
 @keyframes head-bob {
   0%,
   100% {
-    transform: rotate(-1.2deg);
+    transform: rotate(-2.6deg);
   }
   50% {
-    transform: rotate(1.3deg);
+    transform: rotate(2.8deg);
   }
 }
 
@@ -103,10 +103,10 @@ header.shell {
 
 @keyframes pick-arm {
   0% {
-    transform: rotate(-16deg);
+    transform: rotate(-28deg);
   }
   100% {
-    transform: rotate(12deg);
+    transform: rotate(18deg);
   }
 }
 
@@ -173,19 +173,6 @@ header.shell {
     justify-self: center;
     max-width: 260px;
     order: -1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .scene-float,
-  .head-bob,
-  .pick-arm,
-  .fret-hand-new,
-  .string-wave,
-  .note-a,
-  .note-b,
-  .note-c {
-    animation: none !important;
   }
 }
 
