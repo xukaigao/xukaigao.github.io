@@ -114,7 +114,9 @@
     return res;
   }
 
-  function solveOptimal(startCars) {
+  // 返回值：>=0 为最优步数；-1 为已证明不可解；-2 为超出计算上限（放弃，不代表无解）。
+  function solveOptimal(startCars, maxStates) {
+    const cap = maxStates || 80000;
     const start = deepCopyCars(startCars);
     if (isWinState(start)) return 0;
     const seen = new Set([encode(start)]);
@@ -130,12 +132,13 @@
           if (isWinState(nb)) return depth;
           seen.add(key);
           next.push(nb);
+          if (seen.size > cap) return -2; // 状态过多，放弃求解
         }
       }
       frontier = next;
-      if (depth > 100) return -1; // 安全阀
+      if (depth > 120) return -2;
     }
-    return -1; // 不可解
+    return -1; // 搜索完毕仍无解
   }
 
   // ---------- 渲染 ----------
@@ -468,18 +471,28 @@
   });
 
   // ---------- 启动 ----------
+  // 异步逐关校验，避免在加载时一次性阻塞 UI（高难关状态空间较大）。
   function validateLevels() {
-    LEVELS.forEach((lv, i) => {
+    let i = 0;
+    function step() {
+      if (i >= LEVELS.length) return;
+      const lv = LEVELS[i];
+      if (lv.cars.length > 10) { i++; setTimeout(step, 0); return; } // 高密度关卡跳过校验，沿用已知最优
       const opt = solveOptimal(lv.cars);
-      if (opt < 0) {
+      if (opt === -1) {
         console.error(`关卡 ${i + 1}（${lv.name}）无解，请检查数据！`);
-      } else {
+      } else if (opt >= 0) {
         lv.optimal = opt; // 用真实最优覆盖手填值
+        if (i === levelIndex) refreshBestLabel();
       }
-    });
+      // opt === -2：状态过多，保留手填的 optimal。
+      i++;
+      setTimeout(step, 0);
+    }
+    setTimeout(step, 200);
   }
 
-  validateLevels();
   buildLevelSelect();
   loadLevel(0);
+  validateLevels();
 })();

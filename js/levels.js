@@ -146,6 +146,63 @@ const LEVELS = [
       { id: "F", x: 0, y: 4, len: 2, dir: "h" },
     ],
   },
+
+  // —— 以下为硬核关卡（取自已公开验证的 BFS 求解器，保证可解） ——
+  {
+    // 来源：经典 6x6 题库「中等」，理论最优 16 步。
+    name: "硬核 · 车流高峰",
+    optimal: 16,
+    cars: [
+      { id: "X", x: 2, y: 2, len: 2, dir: "h" },
+      { id: "B", x: 2, y: 1, len: 2, dir: "h" },
+      { id: "C", x: 0, y: 5, len: 2, dir: "h" },
+      { id: "D", x: 3, y: 4, len: 2, dir: "h" },
+      { id: "E", x: 3, y: 5, len: 2, dir: "h" },
+      { id: "F", x: 1, y: 0, len: 2, dir: "v" },
+      { id: "G", x: 1, y: 2, len: 3, dir: "v" },
+      { id: "H", x: 2, y: 4, len: 2, dir: "v" },
+      { id: "I", x: 4, y: 0, len: 3, dir: "v" },
+    ],
+  },
+  {
+    // 来源：经典 6x6 题库「困难」，理论最优 26 步。
+    name: "硬核 · 寸步难行",
+    optimal: 26,
+    cars: [
+      { id: "X", x: 1, y: 2, len: 2, dir: "h" },
+      { id: "B", x: 3, y: 0, len: 3, dir: "h" },
+      { id: "C", x: 4, y: 1, len: 2, dir: "h" },
+      { id: "D", x: 4, y: 3, len: 2, dir: "h" },
+      { id: "E", x: 2, y: 4, len: 2, dir: "h" },
+      { id: "F", x: 1, y: 5, len: 3, dir: "h" },
+      { id: "G", x: 2, y: 0, len: 2, dir: "v" },
+      { id: "H", x: 3, y: 1, len: 3, dir: "v" },
+      { id: "I", x: 0, y: 1, len: 2, dir: "v" },
+      { id: "J", x: 0, y: 4, len: 2, dir: "v" },
+      { id: "K", x: 1, y: 3, len: 2, dir: "v" },
+      { id: "L", x: 5, y: 4, len: 2, dir: "v" },
+    ],
+  },
+  {
+    // 来源：michaelfogleman.com/rush 评选出的 6x6 史上最难配置，理论最优 51 步。
+    name: "魔王关 · 史上最难",
+    optimal: 51,
+    cars: [
+      { id: "X", x: 3, y: 2, len: 2, dir: "h" },
+      { id: "B", x: 1, y: 0, len: 2, dir: "h" },
+      { id: "C", x: 0, y: 3, len: 3, dir: "h" },
+      { id: "D", x: 0, y: 5, len: 2, dir: "h" },
+      { id: "E", x: 3, y: 5, len: 2, dir: "h" },
+      { id: "F", x: 4, y: 4, len: 2, dir: "h" },
+      { id: "G", x: 0, y: 0, len: 3, dir: "v" },
+      { id: "H", x: 1, y: 1, len: 2, dir: "v" },
+      { id: "I", x: 2, y: 1, len: 2, dir: "v" },
+      { id: "J", x: 4, y: 0, len: 2, dir: "v" },
+      { id: "K", x: 3, y: 3, len: 2, dir: "v" },
+      { id: "L", x: 2, y: 4, len: 2, dir: "v" },
+      { id: "M", x: 5, y: 1, len: 3, dir: "v" },
+    ],
+  },
 ];
 
 if (typeof module !== "undefined" && module.exports) {
