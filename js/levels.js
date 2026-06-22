@@ -77,6 +77,75 @@ const LEVELS = [
       { id: "F", x: 0, y: 4, len: 2, dir: "h" },
     ],
   },
+  {
+    // 解法：A、B、C、D 依次下移让出第 3 行，X 右移出库。
+    name: "车满为患",
+    optimal: 5,
+    cars: [
+      { id: "X", x: 0, y: 2, len: 2, dir: "h" },
+      { id: "E", x: 0, y: 0, len: 2, dir: "h" },
+      { id: "F", x: 2, y: 0, len: 2, dir: "v" },
+      { id: "G", x: 5, y: 0, len: 2, dir: "v" },
+      { id: "A", x: 2, y: 2, len: 2, dir: "v" },
+      { id: "B", x: 3, y: 2, len: 2, dir: "v" },
+      { id: "C", x: 4, y: 2, len: 2, dir: "v" },
+      { id: "D", x: 5, y: 2, len: 2, dir: "v" },
+    ],
+  },
+  {
+    // 解法：A 下移清空 (2,2)，B 下移清空 (3,2)，C 下移清空 (4,2)，D 上移清空 (5,2)，X 右移。
+    name: "上下夹击",
+    optimal: 5,
+    cars: [
+      { id: "X", x: 0, y: 2, len: 2, dir: "h" },
+      { id: "E", x: 0, y: 0, len: 2, dir: "h" },
+      { id: "A", x: 2, y: 0, len: 3, dir: "v" },
+      { id: "B", x: 3, y: 2, len: 2, dir: "v" },
+      { id: "C", x: 4, y: 0, len: 3, dir: "v" },
+      { id: "D", x: 5, y: 2, len: 2, dir: "v" },
+    ],
+  },
+  {
+    // 解法：D 下移清空 (2,2)，C 下移清空 (4,2)，B 先左移让出 (5,5)，A 才能下移清空 (5,2)，X 右移。
+    name: "连环",
+    optimal: 5,
+    cars: [
+      { id: "X", x: 0, y: 2, len: 2, dir: "h" },
+      { id: "D", x: 2, y: 2, len: 2, dir: "v" },
+      { id: "C", x: 4, y: 2, len: 2, dir: "v" },
+      { id: "A", x: 5, y: 2, len: 2, dir: "v" },
+      { id: "E", x: 5, y: 0, len: 2, dir: "v" },
+      { id: "B", x: 4, y: 5, len: 2, dir: "h" },
+    ],
+  },
+  {
+    // 解法：A 下移清空 (2,2)，B 下移清空 (3,2)，C 上移清空 (4,2)，D 上移清空 (5,2)，X 右移。
+    name: "迷魂阵",
+    optimal: 5,
+    cars: [
+      { id: "X", x: 0, y: 2, len: 2, dir: "h" },
+      { id: "E", x: 0, y: 0, len: 2, dir: "h" },
+      { id: "A", x: 2, y: 1, len: 2, dir: "v" },
+      { id: "B", x: 3, y: 0, len: 3, dir: "v" },
+      { id: "C", x: 4, y: 2, len: 2, dir: "v" },
+      { id: "D", x: 5, y: 1, len: 2, dir: "v" },
+      { id: "F", x: 0, y: 4, len: 2, dir: "h" },
+    ],
+  },
+  {
+    // 解法：C 下移清空 (2,2)，D 先左移让出 (5,4)，A 才能下移清空 (5,2)，X 右移。
+    name: "大堵车",
+    optimal: 4,
+    cars: [
+      { id: "X", x: 0, y: 2, len: 2, dir: "h" },
+      { id: "C", x: 2, y: 2, len: 2, dir: "v" },
+      { id: "A", x: 5, y: 1, len: 2, dir: "v" },
+      { id: "H", x: 4, y: 0, len: 2, dir: "h" },
+      { id: "D", x: 4, y: 4, len: 2, dir: "h" },
+      { id: "E", x: 0, y: 0, len: 2, dir: "h" },
+      { id: "F", x: 0, y: 4, len: 2, dir: "h" },
+    ],
+  },
 ];
 
 if (typeof module !== "undefined" && module.exports) {
