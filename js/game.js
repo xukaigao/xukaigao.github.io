@@ -2,7 +2,7 @@
   "use strict";
 
   const BOARD = 6;        // 6x6 棋盘
-  const EXIT_ROW = 2;     // 出口所在行（0 索引）
+  const DEFAULT_EXIT = { side: "right", lane: 2 }; // 经典出口：右侧第 3 行
   const STORE_KEY = "rushhour.best.v1";
 
   // ---- DOM ----
@@ -32,7 +32,14 @@
   let timerId = null;
   let startTime = 0;
   let elapsedMs = 0;
+  let currentExit = DEFAULT_EXIT;  // 当前关卡出口 {side, lane}
   const carEls = {};      // id -> 元素
+
+  // 读取关卡出口配置；未指定则用经典右侧出口。
+  // side: 'right' | 'left' | 'bottom' | 'top'；lane: 出口所在的行（右/左）或列（上/下），0 索引。
+  function getExit(level) {
+    return level && level.exit ? level.exit : DEFAULT_EXIT;
+  }
 
   // ---------- 工具 ----------
   function deepCopyCars(list) {
@@ -59,9 +66,18 @@
     return grid;
   }
 
-  function isWinState(list) {
-    const x = list.find((c) => c.id === "X");
-    return x && x.x + x.len >= BOARD;
+  // 目标车（X）到达出口边缘即获胜。目标车锁定在自己的行/列，故只需判断边缘。
+  function isWinState(list, exit) {
+    const t = list.find((c) => c.id === "X");
+    if (!t) return false;
+    const e = exit || DEFAULT_EXIT;
+    switch (e.side) {
+      case "right": return t.x + t.len >= BOARD;
+      case "left": return t.x <= 0;
+      case "bottom": return t.y + t.len >= BOARD;
+      case "top": return t.y <= 0;
+      default: return t.x + t.len >= BOARD;
+    }
   }
 
   // ---------- BFS 求解器（验证可解性 & 计算最优步数） ----------
@@ -115,10 +131,10 @@
   }
 
   // 返回值：>=0 为最优步数；-1 为已证明不可解；-2 为超出计算上限（放弃，不代表无解）。
-  function solveOptimal(startCars, maxStates) {
+  function solveOptimal(startCars, exit, maxStates) {
     const cap = maxStates || 80000;
     const start = deepCopyCars(startCars);
-    if (isWinState(start)) return 0;
+    if (isWinState(start, exit)) return 0;
     const seen = new Set([encode(start)]);
     let frontier = [start];
     let depth = 0;
@@ -129,7 +145,7 @@
         for (const nb of neighbors(state)) {
           const key = encode(nb);
           if (seen.has(key)) continue;
-          if (isWinState(nb)) return depth;
+          if (isWinState(nb, exit)) return depth;
           seen.add(key);
           next.push(nb);
           if (seen.size > cap) return -2; // 状态过多，放弃求解
@@ -153,11 +169,16 @@
       boardEl.appendChild(cell);
     }
 
-    // 出口标记
+    // 出口标记（按出口所在边与车道定位）
     const exit = document.createElement("div");
-    exit.className = "exit-marker";
-    exit.style.top = `calc(${EXIT_ROW} * (100% / ${BOARD}))`;
+    exit.className = "exit-marker exit-" + currentExit.side;
     exit.textContent = "出口";
+    const lanePos = `calc(${currentExit.lane} * (100% / ${BOARD}))`;
+    if (currentExit.side === "right" || currentExit.side === "left") {
+      exit.style.top = lanePos;
+    } else {
+      exit.style.left = lanePos;
+    }
     boardEl.appendChild(exit);
 
     // 车辆
@@ -224,7 +245,7 @@
     movesLabel.textContent = String(moveCount);
     positionCar(car);
     ensureTimer();
-    if (isWinState(cars)) handleWin();
+    if (isWinState(cars, currentExit)) handleWin();
     return true;
   }
 
@@ -392,10 +413,14 @@
     winNextBtn.disabled = levelIndex >= LEVELS.length - 1;
     winNextBtn.style.opacity = winNextBtn.disabled ? 0.4 : 1;
 
-    // 让目标车滑出出口的动画
+    // 让目标车朝出口方向滑出的动画
     const xEl = carEls["X"];
     if (xEl) {
-      xEl.classList.add("escaping");
+      xEl.style.transition = "left 0.5s cubic-bezier(0.5,-0.1,0.8,0.4), top 0.5s cubic-bezier(0.5,-0.1,0.8,0.4)";
+      if (currentExit.side === "right") xEl.style.left = "120%";
+      else if (currentExit.side === "left") xEl.style.left = "-120%";
+      else if (currentExit.side === "bottom") xEl.style.top = "120%";
+      else if (currentExit.side === "top") xEl.style.top = "-120%";
       setTimeout(() => showOverlay(), 520);
     } else {
       showOverlay();
@@ -414,6 +439,7 @@
   function loadLevel(idx) {
     levelIndex = Math.max(0, Math.min(LEVELS.length - 1, idx));
     cars = deepCopyCars(LEVELS[levelIndex].cars);
+    currentExit = getExit(LEVELS[levelIndex]);
     history = [];
     moveCount = 0;
     won = false;
@@ -478,7 +504,7 @@
       if (i >= LEVELS.length) return;
       const lv = LEVELS[i];
       if (lv.cars.length > 10) { i++; setTimeout(step, 0); return; } // 高密度关卡跳过校验，沿用已知最优
-      const opt = solveOptimal(lv.cars);
+      const opt = solveOptimal(lv.cars, getExit(lv));
       if (opt === -1) {
         console.error(`关卡 ${i + 1}（${lv.name}）无解，请检查数据！`);
       } else if (opt >= 0) {

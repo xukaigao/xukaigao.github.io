@@ -26,9 +26,17 @@ function buildGrid(list, ignore) {
   }
   return g;
 }
-function isWin(list) {
-  const x = list.find((c) => c.id === "X");
-  return x.x + x.len >= BOARD;
+function getExit(lv) { return lv && lv.exit ? lv.exit : { side: "right", lane: 2 }; }
+function isWin(list, exit) {
+  const t = list.find((c) => c.id === "X");
+  const e = exit || { side: "right", lane: 2 };
+  switch (e.side) {
+    case "right": return t.x + t.len >= BOARD;
+    case "left": return t.x <= 0;
+    case "bottom": return t.y + t.len >= BOARD;
+    case "top": return t.y <= 0;
+    default: return t.x + t.len >= BOARD;
+  }
 }
 function copy(list) { return list.map((c) => ({ ...c })); }
 function encode(list) {
@@ -59,8 +67,8 @@ function overlapCheck(list) {
   }
   return null;
 }
-function solve(start) {
-  if (isWin(start)) return 0;
+function solve(start, exit) {
+  if (isWin(start, exit)) return 0;
   const seen = new Set([encode(start)]);
   let f = [start], d = 0;
   while (f.length) {
@@ -68,7 +76,7 @@ function solve(start) {
     for (const s of f) for (const nb of neighbors(s)) {
       const k = encode(nb);
       if (seen.has(k)) continue;
-      if (isWin(nb)) return d;
+      if (isWin(nb, exit)) return d;
       seen.add(k); nx.push(nb);
     }
     f = nx; if (d > 100) return -1;
@@ -80,7 +88,7 @@ let ok = true;
 LEVELS.forEach((lv, i) => {
   const bad = overlapCheck(lv.cars);
   if (bad) { console.log(`关卡 ${i + 1} ${lv.name}: 数据错误 -> ${bad}`); ok = false; return; }
-  const opt = solve(copy(lv.cars));
+  const opt = solve(copy(lv.cars), getExit(lv));
   const status = opt < 0 ? "无解!!" : `最优 ${opt} 步 (标注 ${lv.optimal})`;
   if (opt < 0) ok = false;
   console.log(`关卡 ${i + 1} ${lv.name}: ${status}`);
