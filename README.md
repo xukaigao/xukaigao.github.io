@@ -32,6 +32,18 @@ python -m http.server 8000
 # 然后访问 http://localhost:8000
 ```
 
+## 改了文件却看不到更新？（强制刷新）
+
+浏览器会缓存 `js`、`css` 等文件，改完代码后普通刷新（`F5`）常常还是旧内容。
+这时要做 **强制刷新 / 硬刷新**，绕过缓存重新加载：
+
+- **Windows（Chrome / Edge / Firefox）**：按 `Ctrl` + `F5`，或 `Ctrl` + `Shift` + `R`
+- **Mac（Chrome / Edge / Firefox）**：按 `Cmd` + `Shift` + `R`
+- **Safari（Mac）**：按 `Cmd` + `Option` + `R`
+
+> 小技巧：开发时可以按 `F12` 打开开发者工具，在 Network（网络）面板勾选 **Disable cache（禁用缓存）**，
+> 只要这个面板保持打开，刷新就总是加载最新文件，不用每次都记快捷键。
+
 ## 部署为 GitHub Pages 首页
 
 本项目是纯静态站点，把 `index.html`、`css/`、`js/` 放到 `xukaigao.github.io` 仓库的**根目录**即可，

@@ -40,6 +40,7 @@ const LEVELS = [
     id: "p002",
     name: "迷魂阵",
     optimal: 5,
+    stars: 1,
     cars: [
       { id: "X", x: 0, y: 2, len: 2, dir: "h" },
       { id: "E", x: 0, y: 0, len: 2, dir: "h" },
@@ -55,6 +56,7 @@ const LEVELS = [
     id: "p003",
     name: "大堵车",
     optimal: 4,
+    stars: 1,
     cars: [
       { id: "X", x: 0, y: 2, len: 2, dir: "h" },
       { id: "C", x: 2, y: 2, len: 2, dir: "v" },
