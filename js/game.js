@@ -3,7 +3,40 @@
 
   const BOARD = 6;        // 6x6 棋盘
   const DEFAULT_EXIT = { side: "right", lane: 2 }; // 经典出口：右侧第 3 行
-  const STORE_KEY = "rushhour.best.v1";
+  const STORE_KEY = "rushhour.best.v2"; // v2：最佳成绩改为按关卡稳定 id 存储
+
+  // 6 级星标的最优步数上界：≤3→1★, ≤6→2★, ≤9→3★, ≤14→4★, ≤22→5★, 其余→6★
+  // 关卡也可用 stars 字段（1~6）手动指定，优先级高于自动分级。
+  const STAR_TIERS = [3, 6, 9, 14, 22];
+  const MAX_STARS = 6;
+
+  // 通关赞美句库（面向 6–12 岁孩子）：每次通关随机抽一句，顺序无所谓。
+  const PRAISES = [
+    "太聪明啦！这么难的题都被你解开了！",
+    "你的脑子转得真快，简直是解谜小天才！",
+    "思路真清晰，这一关被你轻松拿下！",
+    "真厉害！像你这样会动脑筋的孩子可不多见！",
+    "你太棒了，连大人都不一定解得开呢！",
+    "观察力满分！你一眼就找到了突破口！",
+    "了不起！你的耐心和智慧都满分！",
+    "这步走得妙，你真是个小小策略家！",
+    "你做到了！相信自己，你比想象中更聪明！",
+    "漂亮！每一步都走得又稳又准！",
+    "你的专注力真强，难怪能顺利通关！",
+    "哇塞，这么烧脑的关卡都难不倒你！",
+    "真是个爱思考的好孩子，继续加油！",
+    "你的逻辑超清晰，未来一定大有可为！",
+    "太出色了！困难在你面前都得让路！",
+    "你像小侦探一样，把出路找得明明白白！",
+    "坚持到底就是胜利，你做得非常棒！",
+    "脑洞大开！你的解法真有创意！",
+    "厉害了！你又升级成更强的解谜高手啦！",
+    "真聪明，这份认真劲儿会带你走得更远！",
+  ];
+
+  function randomPraise() {
+    return PRAISES[Math.floor(Math.random() * PRAISES.length)];
+  }
 
   // ---- DOM ----
   const boardEl = document.getElementById("board");
@@ -11,12 +44,14 @@
   const movesLabel = document.getElementById("movesLabel");
   const timeLabel = document.getElementById("timeLabel");
   const bestLabel = document.getElementById("bestLabel");
+  const diffLabel = document.getElementById("diffLabel");
   const levelSelect = document.getElementById("levelSelect");
   const undoBtn = document.getElementById("undoBtn");
   const resetBtn = document.getElementById("resetBtn");
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
   const winOverlay = document.getElementById("winOverlay");
+  const winPraise = document.getElementById("winPraise");
   const winMoves = document.getElementById("winMoves");
   const winTime = document.getElementById("winTime");
   const winBest = document.getElementById("winBest");
@@ -39,6 +74,36 @@
   // side: 'right' | 'left' | 'bottom' | 'top'；lane: 出口所在的行（右/左）或列（上/下），0 索引。
   function getExit(level) {
     return level && level.exit ? level.exit : DEFAULT_EXIT;
+  }
+
+  // ---------- 命名 / 难度（与显示顺序解耦，可扩展到数百关） ----------
+  // 难度星级：优先用关卡手填的 stars；否则按 BFS 最优步数自动分级。返回 0 表示未知。
+  function getStars(level) {
+    if (level && level.stars >= 1 && level.stars <= MAX_STARS) return level.stars;
+    const opt = level && level.optimal;
+    if (!opt || opt < 0) return 0;
+    for (let i = 0; i < STAR_TIERS.length; i++) {
+      if (opt <= STAR_TIERS[i]) return i + 1;
+    }
+    return MAX_STARS;
+  }
+
+  function starString(n) {
+    if (!n) return "☆".repeat(MAX_STARS); // 未知难度（BFS 尚未算出）
+    return "★".repeat(n) + "☆".repeat(MAX_STARS - n);
+  }
+
+  // 显示标题：第 N 关（按数组顺序实时计算）+ 可选描述名。
+  function levelTitle(idx) {
+    const lv = LEVELS[idx];
+    const base = `第 ${idx + 1} 关`;
+    return lv && lv.name ? `${base} · ${lv.name}` : base;
+  }
+
+  // 最佳成绩存储键：用稳定 id；缺省回退到下标（兼容未分配 id 的关）。
+  function levelKey(idx) {
+    const lv = LEVELS[idx];
+    return lv && lv.id ? lv.id : "idx" + idx;
   }
 
   // ---------- 工具 ----------
@@ -376,13 +441,14 @@
   }
 
   function getBest(idx) {
-    return loadBests()[idx];
+    return loadBests()[levelKey(idx)];
   }
 
   function setBest(idx, moves) {
     const all = loadBests();
-    if (all[idx] === undefined || moves < all[idx]) {
-      all[idx] = moves;
+    const key = levelKey(idx);
+    if (all[key] === undefined || moves < all[key]) {
+      all[key] = moves;
       try {
         localStorage.setItem(STORE_KEY, JSON.stringify(all));
       } catch {}
@@ -396,10 +462,15 @@
     bestLabel.textContent = b === undefined ? "—" : String(b);
   }
 
+  function refreshDiffLabel() {
+    if (diffLabel) diffLabel.textContent = starString(getStars(LEVELS[levelIndex]));
+  }
+
   // ---------- 胜利 ----------
   function handleWin() {
     won = true;
     stopTimer();
+    if (winPraise) winPraise.textContent = randomPraise();
     const isNewBest = setBest(levelIndex, moveCount);
     refreshBestLabel();
     winMoves.textContent = String(moveCount);
@@ -447,11 +518,12 @@
     stopTimer();
     movesLabel.textContent = "0";
     timeLabel.textContent = "00:00";
-    levelLabel.textContent = `${levelIndex + 1} · ${LEVELS[levelIndex].name}`;
+    levelLabel.textContent = `${levelIndex + 1} / ${LEVELS.length}`;
     levelSelect.value = String(levelIndex);
     hideOverlay();
     renderBoard();
     refreshBestLabel();
+    refreshDiffLabel();
     prevBtn.disabled = levelIndex === 0;
     nextBtn.disabled = levelIndex === LEVELS.length - 1;
   }
@@ -473,7 +545,7 @@
     LEVELS.forEach((lv, i) => {
       const opt = document.createElement("option");
       opt.value = String(i);
-      opt.textContent = `第 ${i + 1} 关 · ${lv.name}`;
+      opt.textContent = `${levelTitle(i)}　${starString(getStars(lv))}`;
       levelSelect.appendChild(opt);
     });
   }
@@ -509,7 +581,10 @@
         console.error(`关卡 ${i + 1}（${lv.name}）无解，请检查数据！`);
       } else if (opt >= 0) {
         lv.optimal = opt; // 用真实最优覆盖手填值
-        if (i === levelIndex) refreshBestLabel();
+        // 刷新当前关的难度星标，并更新下拉框中该关的星级
+        if (i === levelIndex) refreshDiffLabel();
+        const optEl = levelSelect.options[i];
+        if (optEl) optEl.textContent = `${levelTitle(i)}　${starString(getStars(lv))}`;
       }
       // opt === -2：状态过多，保留手填的 optimal。
       i++;

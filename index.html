@@ -11,7 +11,7 @@
   <div class="app">
     <header class="topbar">
       <h1 class="title">移车出库 <span class="subtitle">Rush Hour</span></h1>
-      <p class="tagline">移动挡路的车辆，把 <span class="hl">红色目标车</span> 开出右侧出口！</p>
+      <p class="tagline">移动挡路的车辆，把 <span class="hl">目标车</span> 开出停车场出口！</p>
     </header>
 
     <section class="hud">
@@ -30,6 +30,10 @@
       <div class="hud-item">
         <span class="hud-label">最少步数</span>
         <span id="bestLabel" class="hud-value">—</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">难度</span>
+        <span id="diffLabel" class="hud-value stars">☆☆☆☆☆☆</span>
       </div>
     </section>
 
@@ -54,6 +58,7 @@
     <div class="win-card">
       <div class="trophy">🏆</div>
       <h2>通关成功！</h2>
+      <p id="winPraise" class="win-praise"></p>
       <p class="win-stats">
         用 <span id="winMoves" class="hl">0</span> 步，
         耗时 <span id="winTime" class="hl">00:00</span>
