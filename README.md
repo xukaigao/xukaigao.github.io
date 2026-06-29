@@ -39,6 +39,7 @@ xukaigao.github.io/
 | 移车出库 Rush Hour | [xukaigao/RushHourGame](https://github.com/xukaigao/RushHourGame) | https://xukaigao.github.io/RushHourGame/ |
 | 小朋友连连看 Kids Match | [xukaigao/kidsMatchGame](https://github.com/xukaigao/kidsMatchGame) | https://xukaigao.github.io/kidsMatchGame/ |
 | 巧克力对半分 Split Chocolate | [xukaigao/splitChocolate](https://github.com/xukaigao/splitChocolate) | https://xukaigao.github.io/splitChocolate/ |
+| 画对称的另一半 Symmetry | [xukaigao/drawSymmetry](https://github.com/xukaigao/drawSymmetry) | https://xukaigao.github.io/drawSymmetry/ |
 
 ## 部署 / 上线步骤（重要：注意顺序）
 
