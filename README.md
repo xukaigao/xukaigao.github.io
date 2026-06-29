@@ -37,6 +37,7 @@ xukaigao.github.io/
 | 游戏 | 仓库 | 网址 |
 |---|---|---|
 | 移车出库 Rush Hour | [xukaigao/RushHourGame](https://github.com/xukaigao/RushHourGame) | https://xukaigao.github.io/RushHourGame/ |
+| 小朋友连连看 Kids Match | [xukaigao/kidsMatchGame](https://github.com/xukaigao/kidsMatchGame) | https://xukaigao.github.io/kidsMatchGame/ |
 
 ## 部署 / 上线步骤（重要：注意顺序）
 
