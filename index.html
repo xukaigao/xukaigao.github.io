@@ -2,72 +2,289 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>移车出库 · Rush Hour 停车场迷宫</title>
-  <meta name="description" content="经典滑块益智游戏：移动挡路的车辆，把红色目标车开出停车场出口。" />
-  <link rel="stylesheet" href="css/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎮 游戏厅 · 小高的游戏小窝</title>
+  <meta name="description" content="一个好玩的小游戏合集，点开就能玩，无需下载安装。" />
+  <style>
+    :root {
+      --bg1: #5b86e5;
+      --bg2: #9d50bb;
+      --bg3: #36d1dc;
+      --card: rgba(255, 255, 255, 0.14);
+      --card-border: rgba(255, 255, 255, 0.35);
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.78);
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      min-height: 100%;
+      background: linear-gradient(-45deg, var(--bg1), var(--bg2), var(--bg3), var(--bg1));
+      background-size: 400% 400%;
+      animation: bgShift 18s ease infinite;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    @keyframes bgShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* 顶部标题 */
+    header.hero {
+      text-align: center;
+      padding: 48px 20px 28px;
+    }
+
+    .hero .logo {
+      font-size: 3.4rem;
+      line-height: 1;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+      animation: bob 3s ease-in-out infinite;
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-10px) rotate(3deg); }
+    }
+
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      margin: 14px 0 8px;
+      letter-spacing: 2px;
+      text-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    }
+
+    /* 游戏网格 */
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 10px 20px 40px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 26px 22px 22px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      color: inherit;
+      overflow: hidden;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+    }
+
+    .card.ready { cursor: pointer; }
+
+    .card.ready:hover,
+    .card.ready:focus-visible {
+      transform: translateY(-8px) scale(1.02);
+      background: rgba(255, 255, 255, 0.22);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.32);
+      outline: none;
+    }
+
+    .card .emoji {
+      font-size: 3.4rem;
+      line-height: 1;
+      margin-bottom: 14px;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
+    }
+
+    .card h2 {
+      font-size: 1.4rem;
+      margin-bottom: 4px;
+    }
+
+    .card .en {
+      font-size: 0.85rem;
+      color: var(--muted);
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .card .desc {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.5;
+      flex: 1;
+      margin-bottom: 16px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .tag {
+      font-size: 0.78rem;
+      padding: 3px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .play-btn {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 999px;
+      background: #fff;
+      color: #6b30a8;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      transition: transform 0.15s ease;
+    }
+
+    .card.ready:hover .play-btn { transform: translateX(4px); }
+
+    /* 即将上线 */
+    .card.soon {
+      opacity: 0.72;
+      border-style: dashed;
+    }
+
+    .card.soon .play-btn {
+      background: rgba(255, 255, 255, 0.25);
+      color: #fff;
+      box-shadow: none;
+    }
+
+    .ribbon {
+      position: absolute;
+      top: 16px;
+      right: -34px;
+      transform: rotate(45deg);
+      background: #ffd93b;
+      color: #6b4b00;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 40px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    footer {
+      text-align: center;
+      padding: 22px 20px 30px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    footer a { color: #fff; }
+
+    @media (max-width: 480px) {
+      header.hero { padding: 34px 16px 18px; }
+      .grid { gap: 16px; }
+    }
+  </style>
 </head>
 <body>
-  <div class="app">
-    <header class="topbar">
-      <h1 class="title">移车出库 <span class="subtitle">Rush Hour</span></h1>
-      <p class="tagline">移动挡路的车辆，把 <span class="hl">目标车</span> 开出停车场出口！</p>
-    </header>
+  <header class="hero">
+    <div class="logo">🎮</div>
+    <h1>游戏厅</h1>
+    <p>点开就能玩，不用下载安装 · 手机电脑都能玩</p>
+  </header>
 
-    <section class="hud">
-      <div class="hud-item">
-        <span class="hud-label">关卡</span>
-        <span id="levelLabel" class="hud-value">1</span>
-      </div>
-      <div class="hud-item">
-        <span class="hud-label">步数</span>
-        <span id="movesLabel" class="hud-value">0</span>
-      </div>
-      <div class="hud-item">
-        <span class="hud-label">用时</span>
-        <span id="timeLabel" class="hud-value">00:00</span>
-      </div>
-      <div class="hud-item">
-        <span class="hud-label">最少步数</span>
-        <span id="bestLabel" class="hud-value">—</span>
-      </div>
-    </section>
+  <main>
+    <div id="grid" class="grid"></div>
+  </main>
 
-    <main class="board-wrap">
-      <div id="board" class="board" aria-label="停车场棋盘"></div>
-    </main>
+  <footer>
+    用 ❤️ 做给爱玩游戏的你 · <a href="https://github.com/xukaigao" target="_blank" rel="noopener">GitHub</a>
+  </footer>
 
-    <section class="controls">
-      <button id="undoBtn" class="btn" title="撤销上一步">↶ 撤销</button>
-      <button id="resetBtn" class="btn" title="重置本关">⟳ 重置</button>
-      <select id="levelSelect" class="btn select" title="选择关卡" aria-label="选择关卡"></select>
-      <button id="prevBtn" class="btn" title="上一关">‹ 上一关</button>
-      <button id="nextBtn" class="btn" title="下一关">下一关 ›</button>
-    </section>
+  <script>
+    // ===== 游戏列表：以后加新游戏，只要往这个数组里再加一项即可 =====
+    // ready: true 表示已上线可玩；false 表示“即将上线”占位卡片。
+    // url: 该游戏的项目站点地址（方案 B：每个游戏一个独立仓库的 Pages）。
+    const GAMES = [
+      {
+        emoji: "🚗",
+        title: "移车出库",
+        en: "Rush Hour",
+        desc: "移动挡路的小车，把目标车开出停车场出口！动动脑筋，越少步数越厉害。",
+        tags: ["益智", "滑块", "6+"],
+        url: "https://xukaigao.github.io/RushHourGame/",
+        ready: true,
+      },
+      {
+        emoji: "🧩",
+        title: "敬请期待",
+        en: "Coming Soon",
+        desc: "新游戏正在加紧制作中，很快就和你见面啦！",
+        tags: ["即将上线"],
+        url: "",
+        ready: false,
+      },
+      {
+        emoji: "✨",
+        title: "敬请期待",
+        en: "Coming Soon",
+        desc: "想玩什么类型的游戏？说不定下一个就是你点的菜！",
+        tags: ["即将上线"],
+        url: "",
+        ready: false,
+      },
+    ];
 
-    <footer class="footer">
-      <p>拖动或点击车辆进行移动。横向车只能左右移动，纵向车只能上下移动。</p>
-    </footer>
-  </div>
+    const grid = document.getElementById("grid");
 
-  <div id="winOverlay" class="overlay hidden" role="dialog" aria-modal="true">
-    <div class="win-card">
-      <div class="trophy">🏆</div>
-      <h2>通关成功！</h2>
-      <p id="winPraise" class="win-praise"></p>
-      <p class="win-stats">
-        用 <span id="winMoves" class="hl">0</span> 步，
-        耗时 <span id="winTime" class="hl">00:00</span>
-      </p>
-      <p id="winBest" class="win-best"></p>
-      <div class="win-actions">
-        <button id="replayBtn" class="btn">再玩一次</button>
-        <button id="winNextBtn" class="btn primary">下一关 ›</button>
-      </div>
-    </div>
-  </div>
+    for (const g of GAMES) {
+      const card = document.createElement(g.ready ? "a" : "div");
+      card.className = "card " + (g.ready ? "ready" : "soon");
+      if (g.ready) {
+        card.href = g.url;
+        card.setAttribute("aria-label", "开始玩 " + g.title);
+      }
 
-  <script src="js/levels.js"></script>
-  <script src="js/game.js"></script>
+      const tagsHtml = (g.tags || [])
+        .map((t) => `<span class="tag">${t}</span>`)
+        .join("");
+
+      card.innerHTML = `
+        ${g.ready ? "" : '<div class="ribbon">SOON</div>'}
+        <div class="emoji">${g.emoji}</div>
+        <h2>${g.title}</h2>
+        <div class="en">${g.en}</div>
+        <p class="desc">${g.desc}</p>
+        <div class="tags">${tagsHtml}</div>
+        <span class="play-btn">${g.ready ? "开始玩 ›" : "敬请期待"}</span>
+      `;
+
+      grid.appendChild(card);
+    }
+  </script>
 </body>
 </html>

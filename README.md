@@ -1,101 +1,68 @@
-# 移车出库 · Rush Hour 停车场迷宫
+# 🎮 游戏厅 · xukaigao.github.io
 
-一个纯前端实现的经典滑块益智游戏（又称 Rush Hour / 停车场迷宫 / moving the vehicle out of the garage）。
-在 6×6 的停车场里移动挡路的车辆，把 **红色目标车** 从右侧出口开出去。
+这是 GitHub Pages **用户站点**（`https://xukaigao.github.io/`）的根目录，作为一个「游戏厅首页」，把多个小游戏汇总在一起，点开就能玩。
 
-🎮 在线试玩（作为 GitHub Pages 首页）：`https://xukaigao.github.io/`
+> 采用 **方案 B（独立仓库 + 项目站点）**：首页只负责导航，每个游戏放在各自独立的仓库里、各自开启 GitHub Pages，首页按钮链接过去。
 
-## 玩法
+## 目录结构
 
-- 横向的车只能左右移动，纵向的车只能上下移动。
-- **拖动** 车辆滑到目标位置，或 **点击** 车辆让它朝出口方向移动一格。
-- 让红色车抵达棋盘最右侧即通关。
-- 目标：用尽量少的步数过关。
-
-## 功能
-
-- 多个由易到难的关卡（含 3 个硬核关：16 / 26 / 51 步），可自由切换 / 选择
-- 步数统计、计时
-- 撤销（快捷键 `Z`）、重置（快捷键 `R`）
-- 通关动画与成绩展示，本地保存每关最佳步数
-- 内置 BFS 求解器，启动时自动校验每关可解并计算理论最优步数
-- 自适应桌面与手机（支持触屏拖动）
-
-## 本地运行
-
-直接用浏览器打开 `index.html` 即可（无需构建、无依赖）。
-或启动一个本地静态服务器：
-
-```bash
-# Python
-python -m http.server 8000
-# 然后访问 http://localhost:8000
+```
+xukaigao.github.io/
+└── index.html   # 自包含的游戏厅首页（内联 CSS / JS，无外部依赖）
 ```
 
-## 改了文件却看不到更新？（强制刷新）
+## 怎么加一个新游戏
 
-浏览器会缓存 `js`、`css` 等文件，改完代码后普通刷新（`F5`）常常还是旧内容。
-这时要做 **强制刷新 / 硬刷新**，绕过缓存重新加载：
+1. 把新游戏做成一个独立仓库（例如 `xukaigao/SnakeGame`），在该仓库 **Settings → Pages** 里开启 Pages（Source 选 `Deploy from a branch`，分支 `main`、目录 `/ (root)`）。
+   - 免费版 GitHub：该仓库必须是 **public** 才能发布 Pages。
+   - 它的网址会是 `https://xukaigao.github.io/<仓库名>/`（大小写与仓库名一致）。
+2. 打开本仓库的 `index.html`，在 `<script>` 里的 `GAMES` 数组中加一项：
 
-- **Windows（Chrome / Edge / Firefox）**：按 `Ctrl` + `F5`，或 `Ctrl` + `Shift` + `R`
-- **Mac（Chrome / Edge / Firefox）**：按 `Cmd` + `Shift` + `R`
-- **Safari（Mac）**：按 `Cmd` + `Option` + `R`
+```js
+{
+  emoji: "🐍",
+  title: "贪吃蛇",
+  en: "Snake",
+  desc: "一句话介绍这个游戏。",
+  tags: ["休闲", "6+"],
+  url: "https://xukaigao.github.io/SnakeGame/",
+  ready: true,   // true=可玩；false=显示“即将上线”占位
+}
+```
 
-> 小技巧：开发时可以按 `F12` 打开开发者工具，在 Network（网络）面板勾选 **Disable cache（禁用缓存）**，
-> 只要这个面板保持打开，刷新就总是加载最新文件，不用每次都记快捷键。
+3. 提交并推送本仓库即可，首页会自动多出一张卡片。
 
-## 部署为 GitHub Pages 首页
+## 当前已收录的游戏
 
-本项目是纯静态站点，把 `index.html`、`css/`、`js/` 放到 `xukaigao.github.io` 仓库的**根目录**即可，
-访问 `https://xukaigao.github.io/` 就是这个游戏。在你本机的 PowerShell 里执行：
+| 游戏 | 仓库 | 网址 |
+|---|---|---|
+| 移车出库 Rush Hour | [xukaigao/RushHourGame](https://github.com/xukaigao/RushHourGame) | https://xukaigao.github.io/RushHourGame/ |
+
+## 部署 / 上线步骤（重要：注意顺序）
+
+为避免「首页上线了但游戏点进去 404」的尴尬，建议按此顺序：
+
+1. **先让游戏的项目站点活起来**：在 `RushHourGame` 仓库开启 Pages，确认 `https://xukaigao.github.io/RushHourGame/` 能正常打开。
+2. **再推送这个首页仓库**。在本机 PowerShell：
 
 ```powershell
-# 1. 克隆你的用户站点仓库到本地某处
-cd C:\gxk\11Code
-git clone https://github.com/xukaigao/xukaigao.github.io.git
-cd xukaigao.github.io
-
-# 2. 用游戏文件替换原有首页内容（保留 .git）
-Get-ChildItem -Force -Exclude .git | Remove-Item -Recurse -Force
-Copy-Item -Path "C:\gxk\11Code\RushHourGame\*" -Destination . -Recurse -Force
-
-# 3. 提交并推送
+cd C:\gxk\11Code\xukaigao.github.io
 git add -A
-git commit -m "Replace homepage with Rush Hour parking maze game"
+git commit -m "Replace root with game arcade homepage (方案 B)"
 git push
 ```
 
-推送后等待 1~2 分钟，访问 `https://xukaigao.github.io/` 即可游玩。
+3. 等 1~2 分钟，访问 `https://xukaigao.github.io/` 就是游戏厅首页。
 
-> 若仓库 Pages 还没开启：GitHub 仓库 → Settings → Pages → Source 选 `Deploy from a branch`，
-> 分支选 `main`（或 `master`）、目录选 `/ (root)`，保存即可。
+> 说明：`https://xukaigao.github.io/` 和 `https://xukaigao.github.io/RushHourGame/` 是**同一个源（origin）**，
+> 所以游戏用 `localStorage` 存的「最佳步数」等记录会自动沿用，不会因为换了网址而丢失。
 
-## 文件结构
+## 改了文件却看不到更新？（强制刷新）
 
-```
-RushHourGame/
-├── index.html      # 页面结构
-├── css/style.css   # 样式
-└── js/
-    ├── levels.js   # 关卡数据
-    └── game.js     # 游戏逻辑 + BFS 求解器
-```
+浏览器会缓存文件，改完普通刷新（`F5`）常常还是旧内容，需要**强制刷新 / 硬刷新**：
 
-## 自定义关卡
+- **Windows（Chrome / Edge / Firefox）**：`Ctrl` + `F5`，或 `Ctrl` + `Shift` + `R`
+- **Mac（Chrome / Edge / Firefox）**：`Cmd` + `Shift` + `R`
+- **Safari（Mac）**：`Cmd` + `Option` + `R`
 
-编辑 `js/levels.js`，每辆车用 `{ id, x, y, len, dir }` 描述：
-
-- `id`：唯一标识，`"X"` 表示红色目标车（必须水平、长度 2、位于第 3 行）。
-- `x` / `y`：车头（最左 / 最上格）坐标，从 0 开始。
-- `len`：车身长度（2 或 3）。
-- `dir`：`"h"` 水平 / `"v"` 垂直。
-
-出口默认在右侧第 3 行。若要自定义出口（例如底部出口），给关卡加上 `exit` 字段：
-
-```js
-exit: { side: "bottom", lane: 3 }, // side: right|left|bottom|top；lane: 行(右/左)或列(上/下)，0 索引
-```
-
-注意：**右/左出口**的目标车 `X` 必须是水平（`dir:"h"`），**上/下出口**则必须是竖直（`dir:"v"`），且 `X` 要位于出口所在的行/列。
-
-保存后刷新页面，启动时的校验器会自动检查该关是否可解。
+> 开发时可按 `F12` 打开开发者工具，在 Network 面板勾选 **Disable cache**，保持面板打开即可总是加载最新文件。
