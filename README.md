@@ -40,6 +40,7 @@ xukaigao.github.io/
 | 小朋友连连看 Kids Match | [xukaigao/kidsMatchGame](https://github.com/xukaigao/kidsMatchGame) | https://xukaigao.github.io/kidsMatchGame/ |
 | 巧克力对半分 Split Chocolate | [xukaigao/splitChocolate](https://github.com/xukaigao/splitChocolate) | https://xukaigao.github.io/splitChocolate/ |
 | 画对称的另一半 Symmetry | [xukaigao/drawSymmetry](https://github.com/xukaigao/drawSymmetry) | https://xukaigao.github.io/drawSymmetry/ |
+| 一笔画 One-Stroke | [xukaigao/oneStroke](https://github.com/xukaigao/oneStroke) | https://xukaigao.github.io/oneStroke/ |
 
 ## 部署 / 上线步骤（重要：注意顺序）
 
